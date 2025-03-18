@@ -19,12 +19,12 @@ class SectionTopText extends StatelessWidget {
         heightSpace(30),
         Text(
           AppStrings.welcomeBack,
-          style: AppTextStyles.font18BlueBold,
+          style: AppTextStyles.font24BlueBold,
         ),
         heightSpace(15),
         Text(
           AppStrings.weAreExcited,
-          style: AppTextStyles.font12GrayRegular,
+          style: AppTextStyles.font14GrayRegular,
         ),
       ],
     );

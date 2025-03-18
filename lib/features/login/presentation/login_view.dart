@@ -10,9 +10,13 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   SafeArea(
+    return SafeArea(
         child: Scaffold(
-          body: LoginViewBody(),
+          ///TODO: BlocProvider for LoginCubit
+          body: BlocProvider(
+            create: (context) => getIt<LoginCubit>(),
+            child: LoginViewBody(),
+          ),
         ));
   }
 }

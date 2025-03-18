@@ -23,3 +23,6 @@ class ApiErrorModel {
   factory ApiErrorModel.fromJson(Map<String, dynamic> json) =>
       _$ApiErrorModelFromJson(json);
 }
+
+
+

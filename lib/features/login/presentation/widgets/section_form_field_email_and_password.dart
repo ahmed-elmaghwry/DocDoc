@@ -1,16 +1,15 @@
 import 'package:docdoc/core/helpers/spacing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
+import '../cubit/login_cubit.dart';
 
 class SectionFormFieldEmailAndPassword extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-
   const SectionFormFieldEmailAndPassword({
-    required this.formKey,
     super.key,
   });
 
@@ -22,19 +21,32 @@ class SectionFormFieldEmailAndPassword extends StatefulWidget {
 class _SectionFormFieldEmailAndPasswordState
     extends State<SectionFormFieldEmailAndPassword> {
   bool isObscure = true;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late TextEditingController emailController;
+
+  late TextEditingController passwordController;
+
+  // TODO: عاوز ابقي اجرب اشيل ال initstate
+  @override
+  void initState() {
+    // TODO: اول لما الشاشه تفتح
+
+    emailController = context.read<LoginCubit>().emailController;
+    passwordController = context.read<LoginCubit>().passwordController;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget.formKey,
+      // TODO: هنا الفورم كي بتاعي بجيبه من الكيوبت بتاعي
+      key: context.read<LoginCubit>().formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           AppTextFormField(
-            controller: emailController,
+            controller: context.read<LoginCubit>().emailController,
             hintText: 'Email',
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -51,7 +63,7 @@ class _SectionFormFieldEmailAndPasswordState
           ),
           heightSpace(20),
           AppTextFormField(
-            controller: passwordController,
+            controller: context.read<LoginCubit>().passwordController,
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {
