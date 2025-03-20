@@ -16,4 +16,7 @@ abstract class AppStrings {
   static const String alreadyHaveAn = 'Already have an account yet?';
   static const String signUp = 'Sign Up ';
   static const String forgetPassword = 'forget password ? ';
+  static const String createAccount = 'Create Account';
+  static const String getInstanceAccessToTopDoctor =
+      'Get Instant Access to Top Doctors!\nBook Appointments Easily Anytime, Anywhere!';
 }

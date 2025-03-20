@@ -1,7 +1,9 @@
 
 import 'dart:ui';
 
+import 'package:docdoc/core/helpers/app_extensions.dart';
 import 'package:docdoc/core/helpers/spacing.dart';
+import 'package:docdoc/core/routing/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 
@@ -68,7 +70,7 @@ class TermsAndPrivacyText extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-
+                  context.pushNamed(Routes.signUpView);
                   },
               ),
 
