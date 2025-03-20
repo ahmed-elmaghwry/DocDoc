@@ -1,7 +1,9 @@
 import 'package:docdoc/core/helpers/spacing.dart';
+import 'package:docdoc/features/login/presentation/widgets/password_validations_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
@@ -38,10 +40,16 @@ class _SectionFormFieldEmailAndPasswordState
 
   @override
   Widget build(BuildContext context) {
+    bool hasUpperCase = false;
+    bool hasLowerCase = false;
+    bool hasSpecialChar = false;
+    bool hasNumber = false;
+    bool hasMinLength = false;
     return Form(
       // TODO: هنا الفورم كي بتاعي بجيبه من الكيوبت بتاعي
       key: context.read<LoginCubit>().formKey,
       child: Column(
+        spacing: 20.h,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -61,7 +69,6 @@ class _SectionFormFieldEmailAndPasswordState
               return null;
             },
           ),
-          heightSpace(20),
           AppTextFormField(
             controller: context.read<LoginCubit>().passwordController,
             suffixIcon: GestureDetector(
@@ -86,7 +93,12 @@ class _SectionFormFieldEmailAndPasswordState
               return null;
             },
           ),
-          heightSpace(20),
+          PasswordValidationsWidget(
+              hasUpperCase: hasUpperCase,
+              hasLowerCase: hasLowerCase,
+              hasSpecialChar: hasSpecialChar,
+              hasNumber: hasNumber,
+              hasMinLength: hasMinLength),
           Text(
             textAlign: TextAlign.start,
             AppStrings.forgetPassword,
