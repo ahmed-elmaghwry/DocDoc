@@ -47,11 +47,7 @@ class LoginViewBody extends StatelessWidget {
     ///todo: هنا بشوف لو الدنيا تمام في الفاليدات بتاعي بخليه يعمل لوجين
     if (context.read<LoginCubit>().formKey.currentState!.validate()) {
       ///todo: يعني بدخل جوا ال (if ) وبقوله اعمل لوجين عن طريق الكيوبت
-      context.read<LoginCubit>().emitLoginStates(
-            loginRequestModel: LoginRequestModel(
-                email: context.read<LoginCubit>().emailController.text,
-                password: context.read<LoginCubit>().passwordController.text),
-          );
+      context.read<LoginCubit>().emitLoginStates();
     }
   }
 }
