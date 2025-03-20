@@ -58,12 +58,13 @@ class PasswordValidationsWidget extends StatelessWidget {
         Text(
           text,
           style: AppTextStyles.font12DarkBlueRegular.copyWith(
+
               decorationColor: AppColors.green,
               decoration: hasValidation
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
               decorationThickness: 2,
-              color: hasValidation ? AppColors.gray : AppColors.darkBlue),
+              color: hasValidation ? AppColors.green : AppColors.darkBlue),
         )
       ],
     );

@@ -1,13 +1,8 @@
 import 'package:docdoc/core/helpers/app_regex.dart';
-import 'package:docdoc/core/helpers/spacing.dart';
 import 'package:docdoc/features/login/presentation/widgets/password_validations_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_text_styles.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 
 class SignUpSectionFormFields extends StatefulWidget {
