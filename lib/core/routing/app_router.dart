@@ -1,8 +1,7 @@
 
 import 'package:docdoc/core/routing/routes.dart';
+import 'package:docdoc/features/home/presentation/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../features/login/presentation/login_view.dart';
 import '../../features/on_boarding/presentation/on_boarding_view.dart';
 
@@ -16,6 +15,9 @@ class AppRouter {
       case Routes.loginView:
         return MaterialPageRoute(builder: (_) =>
             LoginView());
+      case Routes.homeView:
+        return MaterialPageRoute(builder: (_) =>
+            HomeView());
       default:
         return MaterialPageRoute(builder: (_) =>
         const Scaffold(

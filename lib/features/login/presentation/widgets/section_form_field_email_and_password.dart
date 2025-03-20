@@ -1,3 +1,4 @@
+import 'package:docdoc/core/helpers/app_regex.dart';
 import 'package:docdoc/core/helpers/spacing.dart';
 import 'package:docdoc/features/login/presentation/widgets/password_validations_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,28 +24,44 @@ class SectionFormFieldEmailAndPassword extends StatefulWidget {
 class _SectionFormFieldEmailAndPasswordState
     extends State<SectionFormFieldEmailAndPassword> {
   bool isObscure = true;
-  late TextEditingController emailController;
-
   late TextEditingController passwordController;
+  bool hasUpperCase = false;
+  bool hasLowerCase = false;
+  bool hasSpecialChar = false;
+  bool hasNumber = false;
+  bool hasMinLength = false;
 
-  // TODO: عاوز ابقي اجرب اشيل ال initstate
   @override
   void initState() {
     // TODO: اول لما الشاشه تفتح
-
-    emailController = context.read<LoginCubit>().emailController;
     passwordController = context.read<LoginCubit>().passwordController;
 
+    _passwordValidation();
     super.initState();
+  }
+
+  // TODO:validate password
+  void _passwordValidation() {
+    passwordController.addListener(() {
+      setState(() {
+        hasLowerCase = AppRegex.hasLowerCase(passwordController.text);
+        hasUpperCase = AppRegex.hasUpperCase(passwordController.text);
+        hasSpecialChar = AppRegex.hasSpecialCharacter(passwordController.text);
+        hasNumber = AppRegex.hasNumber(passwordController.text);
+        hasMinLength = AppRegex.hasMinLength(passwordController.text);
+      });
+    });
+  }
+
+  ///todo:dispose controller
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    bool hasUpperCase = false;
-    bool hasLowerCase = false;
-    bool hasSpecialChar = false;
-    bool hasNumber = false;
-    bool hasMinLength = false;
     return Form(
       // TODO: هنا الفورم كي بتاعي بجيبه من الكيوبت بتاعي
       key: context.read<LoginCubit>().formKey,
@@ -57,7 +74,9 @@ class _SectionFormFieldEmailAndPasswordState
             controller: context.read<LoginCubit>().emailController,
             hintText: 'Email',
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null ||
+                  value.isEmpty ||
+                  !AppRegex.isEmailValid(value)) {
                 return 'please enter your email address';
               }
               bool emailValid = RegExp(

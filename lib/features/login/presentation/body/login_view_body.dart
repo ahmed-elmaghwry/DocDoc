@@ -1,6 +1,7 @@
 import 'package:docdoc/core/helpers/spacing.dart';
 import 'package:docdoc/features/login/data/model/login_request_model.dart';
 import 'package:docdoc/features/login/presentation/cubit/login_cubit.dart';
+import 'package:docdoc/features/login/presentation/widgets/login_bloc_listener.dart';
 import 'package:docdoc/features/login/presentation/widgets/section_terms_and_privacy_text.dart';
 import 'package:docdoc/features/login/presentation/widgets/section_top_text.dart';
 import 'package:flutter/gestures.dart';
@@ -31,11 +32,11 @@ class LoginViewBody extends StatelessWidget {
               textStyle: AppTextStyles.font16WhiteMedium,
               onPressed: () {
                 _validationThenLogin(context);
-
               },
             ),
             heightSpace(60),
             TermsAndPrivacyText(),
+            LoginBlocListener(),
           ],
         ),
       ),
@@ -43,13 +44,14 @@ class LoginViewBody extends StatelessWidget {
   }
 
   void _validationThenLogin(BuildContext context) {
-
     ///todo: هنا بشوف لو الدنيا تمام في الفاليدات بتاعي بخليه يعمل لوجين
     if (context.read<LoginCubit>().formKey.currentState!.validate()) {
       ///todo: يعني بدخل جوا ال (if ) وبقوله اعمل لوجين عن طريق الكيوبت
-      context.read<LoginCubit>().emitLoginStates(loginRequestModel: LoginRequestModel(
-          email: context.read<LoginCubit>().emailController.text,
-          password:  context.read<LoginCubit>().passwordController.text),);
+      context.read<LoginCubit>().emitLoginStates(
+            loginRequestModel: LoginRequestModel(
+                email: context.read<LoginCubit>().emailController.text,
+                password: context.read<LoginCubit>().passwordController.text),
+          );
     }
   }
 }
