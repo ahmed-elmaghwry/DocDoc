@@ -1,7 +1,9 @@
 import 'package:docdoc/core/helpers/app_regex.dart';
 import 'package:docdoc/features/login/presentation/widgets/password_validations_widget.dart';
+import 'package:docdoc/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 
@@ -18,7 +20,7 @@ class SignUpSectionFormFields extends StatefulWidget {
 class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
   // TODO: بعرف المغيرات بتاعت الشاشه هنا الاول
   bool isObscure = true;
-  // late TextEditingController passwordController;
+  late TextEditingController passwordController;
   bool hasUpperCase = false;
   bool hasLowerCase = false;
   bool hasSpecialChar = false;
@@ -28,38 +30,38 @@ class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
   @override
   void initState() {
     // TODO: اول لما الشاشه تفتح
-    //passwordController = context.read<LoginCubit>().passwordController;
+    passwordController = context.read<SignUpCubit>().passwordController;
 
-   // _passwordValidation();
+     _passwordValidation();
     super.initState();
   }
 
   // // TODO:validate password
-  // void _passwordValidation() {
-  //   passwordController.addListener(() {
-  //     setState(() {
-  //       hasLowerCase = AppRegex.hasLowerCase(passwordController.text);
-  //       hasUpperCase = AppRegex.hasUpperCase(passwordController.text);
-  //       hasSpecialChar = AppRegex.hasSpecialCharacter(passwordController.text);
-  //       hasNumber = AppRegex.hasNumber(passwordController.text);
-  //       hasMinLength = AppRegex.hasMinLength(passwordController.text);
-  //     });
-  //   });
-  // }
+  void _passwordValidation() {
+    passwordController.addListener(() {
+      setState(() {
+        hasLowerCase = AppRegex.hasLowerCase(passwordController.text);
+        hasUpperCase = AppRegex.hasUpperCase(passwordController.text);
+        hasSpecialChar = AppRegex.hasSpecialCharacter(passwordController.text);
+        hasNumber = AppRegex.hasNumber(passwordController.text);
+        hasMinLength = AppRegex.hasMinLength(passwordController.text);
+      });
+    });
+  }
 
   ///todo:dispose controller
-  // @override
-  // void dispose() {
-  //   passwordController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
 
   //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐  //⭐
   @override
   Widget build(BuildContext context) {
     return Form(
       // TODO: هنا الفورم كي بتاعي بجيبه من الكيوبت بتاعي
-      // key: context.read<LoginCubit>().formKey,
+        key: context.read<SignUpCubit>().formKey,
       child: Column(
         spacing: 20.h,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -67,7 +69,7 @@ class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
         children: [
           //*⭐ name
           AppTextFormField(
-            //    controller: context.read<LoginCubit>().emailController,
+               controller: context.read<SignUpCubit>().nameController,
             hintText: 'name',
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -77,27 +79,20 @@ class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
           ),
           //*⭐ phoneNumber
           AppTextFormField(
-            //    controller: context.read<LoginCubit>().emailController,
+             controller: context.read<SignUpCubit>().phoneController,
             hintText: 'phone number',
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value == null ||
-                  value.isEmpty ||
-                  !AppRegex.isEmailValid(value)) {
-                return 'please enter your email address';
-              }
-              bool emailValid = RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                  .hasMatch(value);
-              if (!emailValid) {
-                return 'please enter a valid email address';
+                  value.isEmpty ) {
+                return 'please enter your phone number';
               }
               return null;
             },
           ),
           //*⭐ email
           AppTextFormField(
-            //    controller: context.read<LoginCubit>().emailController,
+             controller: context.read<SignUpCubit>().emailController,
             hintText: 'Email',
             validator: (value) {
               if (value == null ||
@@ -116,7 +111,7 @@ class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
           ),
           //*⭐ password
           AppTextFormField(
-            //  controller: context.read<LoginCubit>().passwordController,
+         controller: context.read<SignUpCubit>().passwordController,
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {
@@ -141,7 +136,7 @@ class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
           ),
           //*⭐ confirm Password
           AppTextFormField(
-            //  controller: context.read<LoginCubit>().passwordController,
+            controller: context.read<SignUpCubit>().confirmPasswordController, //   confirmPasswordController
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {
@@ -153,13 +148,14 @@ class _SignUpSectionFormFieldsState extends State<SignUpSectionFormFields> {
               ),
             ),
             isObscureText: isObscure,
-            hintText: 'confirm Password',
+            hintText: 'Confirm Password',
             validator: (value) {
+              final password = context.read<SignUpCubit>().passwordController.text;
               if (value == null || value.isEmpty) {
-                return 'Please enter your password.';
+                return 'Please confirm your password.';
               }
-              if (value.length < 6) {
-                return 'Password must be at least 6 characters long.';
+              if (value != password) {
+                return 'Passwords do not match.';
               }
               return null;
             },

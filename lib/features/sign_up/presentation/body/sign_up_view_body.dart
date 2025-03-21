@@ -1,7 +1,10 @@
 import 'package:docdoc/core/helpers/app_extensions.dart';
+import 'package:docdoc/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:docdoc/features/sign_up/presentation/widgets/sign_up_bloc_listener.dart';
 import 'package:docdoc/features/sign_up/presentation/widgets/sign_up_section_form_fields.dart';
 import 'package:docdoc/features/sign_up/presentation/widgets/sign_up_section_top_title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/spacing.dart';
@@ -29,14 +32,22 @@ class SignUpViewBody extends StatelessWidget {
               buttonText: 'Create Account',
               textStyle: AppTextStyles.font16WhiteMedium,
               onPressed: () {
-               context.pushReplacementNamed(Routes.loginView);
+                _validationThenSignUp(context);
               },
             ),
-
+            SignUpBlocListener()
 
           ],
         ),
       ),
     );
+  }
+
+  dynamic _validationThenSignUp(BuildContext context) {
+    ///todo: هنا بشوف لو الدنيا تمام في الفاليدات بتاعي بخليه يعمل سين اب
+    if (context.read<SignUpCubit>().formKey.currentState!.validate()) {
+      ///todo: يعني بدخل جوا ال (if ) وبقوله اعمل لوجين عن طريق الكيوبت
+      context.read<SignUpCubit>().emitSignUpStates();
+    }
   }
 }

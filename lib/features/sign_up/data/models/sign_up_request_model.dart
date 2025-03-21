@@ -15,7 +15,7 @@ class SignUpRequestModel {
 
   final String name;
   final String email;
-  final int phone;
+  final String phone;
   final int gender;
   final String password;
   @JsonKey(name: 'password_confirmation')
